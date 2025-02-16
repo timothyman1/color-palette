@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  useMemo,
-  Fragment,
-} from "react";
+import { useState, useCallback, useRef, useEffect, Fragment } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -324,7 +317,10 @@ export default function ColorPaletteChat() {
           </motion.div>
         )}
 
-        <form onSubmit={handleSubmit} className="flex space-x-4">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col md:flex-row gap-4"
+        >
           <Input
             value={userText}
             onChange={(e) => setUserText(e.target.value)}
@@ -335,7 +331,7 @@ export default function ColorPaletteChat() {
             value={movie}
             onChange={(e) => setMovie(e.target.value)}
             placeholder="Specify movie"
-            className="w-80 shadow-indent placeholder:text-foreground border-none rounded-xl px-6 py-3 focus:outline-none focus:ring-0"
+            className="md:w-80 shadow-indent placeholder:text-foreground border-none rounded-xl px-6 py-3 focus:outline-none focus:ring-0"
           />
 
           <Button type="submit" className="nuph text-foreground">

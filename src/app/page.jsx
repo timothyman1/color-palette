@@ -31,6 +31,13 @@ export default function ColorPaletteChat() {
   const generateRandomPalette = useCallback(
     async (usrText, film) => {
       const res = await classify(usrText, film);
+      if (res.error) {
+        return {
+          error: res.error,
+          usrText,
+          film,
+        };
+      }
       return {
         colors: res,
         usrText,
@@ -56,7 +63,21 @@ export default function ColorPaletteChat() {
 
       const newPalette = await generateRandomPalette(userText, movie);
 
-      if (!newPalette) return;
+      debugger;
+      if (!newPalette.colors && newPalette.error) {
+        const aiMessage = {
+          id: aiMessageId,
+          role: "assistant",
+          content: `${newPalette.error}`,
+          colorPalette: undefined,
+        };
+        setMessages((prev) => [...prev, aiMessage]);
+        setCurrentPalette(null);
+        setUserText("");
+        setMovie("");
+        setSelectedColorIndex(null);
+        return;
+      }
 
       // Mock AI response - in a real app, this would be an API call
       // const newPalette = {

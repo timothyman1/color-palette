@@ -13,6 +13,7 @@ export const useFetchColor = () => {
   const classify = async (usrText, film) => {
     // Wrap your async logic inside an IIFE
     setIsLoading(true);
+    setError("");
     try {
       // const response = await fetch(
       //   `/api/palette?text=${encodeURIComponent(usrText)}&movie=${encodeURIComponent(film)}`,
@@ -20,13 +21,31 @@ export const useFetchColor = () => {
       // );
       const response = await colorPaletteFetch(usrText, film);
       if (response === null) throw new Error("Something went wrong");
-      const values = JSON.parse(response.replace(/'/g, '"'));
-      setIsLoading(false);
-      setResult(values);
-      return values;
+      let values;
+
+      debugger;
+      try {
+        values = JSON.parse(response.replace(/'/g, '"'));
+      } catch (parseError) {
+        throw new Error(
+          "The input format is not correct. Input the prompt describing what color palette you want.",
+        );
+      }
+      if (values instanceof Array && values.length === 5) {
+        setIsLoading(false);
+        setResult(values);
+        return values;
+      }
+      throw new Error(
+        "The input format is not correct. Input the prompt describing what color palette you want.",
+      );
     } catch (error) {
-      console.log(error);
-      setError(error);
+      console.log(error.message);
+      setError(error.message);
+      setIsLoading(false);
+      return {
+        error: error.message,
+      };
       // setIsLoading(false);
     }
   };

@@ -24,8 +24,16 @@ export default function ColorPaletteChat() {
   const scrollAreaRef = useRef(null);
   const blockRefs = useRef({});
 
-  const [result, isPending, userText, setUserText, movie, setMovie, classify] =
-    useFetchColor();
+  const [
+    result,
+    isPending,
+    userText,
+    setUserText,
+    movie,
+    setMovie,
+    classify,
+    error,
+  ] = useFetchColor();
 
   const generateRandomPalette = useCallback(
     async (usrText, film) => {
@@ -54,6 +62,8 @@ export default function ColorPaletteChat() {
       setMessages((prev) => [...prev, userMessage]);
 
       const newPalette = await generateRandomPalette(userText, movie);
+
+      if (!newPalette) return;
 
       // Mock AI response - in a real app, this would be an API call
       // const newPalette = {
@@ -288,6 +298,12 @@ export default function ColorPaletteChat() {
             ) : (
               <div className="h-16 flex items-center justify-center">
                 <p>Loading...</p>
+              </div>
+            )}
+
+            {error && (
+              <div className="h-16 flex items-center justify-center">
+                <p className="text-red-500">{error}</p>
               </div>
             )}
 

@@ -31,7 +31,14 @@ export const useFetchColor = () => {
           "The input format is not correct. Input the prompt describing what color palette you want.",
         );
       }
-      if (values instanceof Array && values.length === 5) {
+      if (
+        Array.isArray(values) &&
+        values.length === 5 &&
+        values.every(
+          (color) =>
+            typeof color === "string" && /^#[0-9A-Fa-f]{6}$/.test(color),
+        )
+      ) {
         setIsLoading(false);
         setResult(values);
         return values;

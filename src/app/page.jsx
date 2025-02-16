@@ -219,7 +219,7 @@ export default function ColorPaletteChat() {
                           handlePaletteSelect(message.id, message.colorPalette)
                         }
                       >
-                        <div className="flex gap-3 h-8">
+                        <div className="grid grid-cols-3 sm:grid-cols-5 gap-4 sm:h-8">
                           {message.colorPalette.colors.map((color, i) => (
                             <div
                               key={i}
@@ -257,15 +257,18 @@ export default function ColorPaletteChat() {
 
         {currentPalette && (
           <motion.div
-            className="flex justify-center space-x-6 mb-10 relative"
+            className="flex justify-center space-x-6 mb-10 relative flex-col sm:flex-row gap-y-14"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             {!isPending ? (
-              <Fragment>
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-x-4 gap-y-8">
                 {currentPalette.colors.map((color, index) => (
-                  <div key={index} className="relative group">
+                  <div
+                    key={index}
+                    className="relative group flex justify-center items-center"
+                  >
                     <div className="w-16 h-16 rounded-full shadow-basic p-1 transition-all duration-200">
                       <div className="relative w-full h-full rounded-full overflow-hidden">
                         <input
@@ -287,7 +290,7 @@ export default function ColorPaletteChat() {
                     </span>
                   </div>
                 ))}
-              </Fragment>
+              </div>
             ) : (
               <div className="h-16 flex items-center justify-center">
                 <p>Loading...</p>
@@ -300,7 +303,7 @@ export default function ColorPaletteChat() {
               </div>
             )}
 
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 justify-center space-x-4 mb-4">
+            <div className="flex sm:absolute sm:right-0 sm:top-1/2 sm:-translate-y-1/2 justify-center items-center space-x-4 sm:mb-4">
               <Button
                 onClick={() => navigateBlocks("up")}
                 className="rounded-full p-2 nuph text-foreground transition-all"
